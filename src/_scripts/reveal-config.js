@@ -2,7 +2,7 @@
 // Reveal.js initialization
 ///////////////////////////
 
-/* Register only the selected languages (defined in webpack.config.js) 
+/* Register only the selected languages (defined in webpack.config.js)
    in highlight.js and initialize highlight.js when Reveal itself initialize
    (see intialization step at the end of Reveal.initialize) */
 import hljs from 'nodePath/highlight.js/lib/highlight.js';

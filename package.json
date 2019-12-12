@@ -1,5 +1,5 @@
 {
-  "name": "reveal.js-webpack-kit",
+  "name": "speech-separation-presentation",
   "version": "2.0.2",
   "description": "webpack-powered reveal.js presentations",
   "main": "index.js",

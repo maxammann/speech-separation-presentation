@@ -3,7 +3,7 @@ import 'nodePath/reveald3/reveald3.js'
 // Load external files
 import 'nodePath/reveal_external/external/external.js'
 // Handy menu
-import 'nodePath/reveal.js-menu/menu.js'
+// import 'nodePath/reveal.js-menu/menu.js'
 
 
 // Speaker notes

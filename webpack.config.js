@@ -19,7 +19,7 @@ async function getConfig() {
   // Configurable options for the build
   const userConfig = {
 
-    /* Languages to be supported by syntax highlighting in Reveal 
+    /* Languages to be supported by syntax highlighting in Reveal
      (the more fonts, the heavier the bundle will be) */
     HIGHLIGHT_LANGUAGES: ['xml', 'javascript', 'python', 'bash'],
 
@@ -27,22 +27,22 @@ async function getConfig() {
     GOOGLE_FONTS: [	{"family": "Source Sans Pro"},
             		    {"family": "Passion One"}],
     GOOGLE_FONTS_FORMATS: ['ttf'],
-    
+
     /* FONT AWESOME. CSS or SVG backend. If CSS chosen, then either link to the CDN
     or link to local .css file (automatically downloaded)*/
     FONTAWESOME_BACKEND: process.env.FONT_AWESOME, // 'css' or 'svg'
     FONTAWESOME_CDN: "https://use.fontawesome.com/releases/v5.2.0/css/all.css",
     FONTAWESOME_USE_LOCAL: true
-  
+
   }
-  
+
   // Check if all the font formats already present in dist folder.
   const FONTS_DONWLOAD = userConfig.GOOGLE_FONTS_FORMATS.map(format => fs.existsSync(`./dist/lib/css/${format}.css`))
     .reduce((acc, bool) => acc && bool, true) ? false : true
 
   const htmlList = await gchelpers.getEntries('./src/')
   const [entries, htmlPluginList] = gchelpers.getEntriesAndHTMLPlugins(htmlList, userConfig.FONTAWESOME_BACKEND=='svg')
-  
+
   console.log('Google fonts download:', FONTS_DONWLOAD)
   console.log('FontAwesome framework:', userConfig.FONTAWESOME_BACKEND)
 
@@ -105,10 +105,24 @@ async function getConfig() {
               publicPath: '../webfonts/',
               outputPath: 'lib/webfonts/',
               emitFile: true
-            }  
+            }
           }
         ]
-      },
+        },
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                // publicPath: './../../',
+                publicPath: '/images/',
+                outputPath: './images/',
+              }
+            }
+          ],
+        },
       ]
     },
 
@@ -124,7 +138,7 @@ async function getConfig() {
       port: 9000
     },
 
-    plugins: [ 
+    plugins: [
       ...htmlPluginList,
 
 
@@ -176,11 +190,11 @@ async function getConfig() {
       (isEnv('production-web-css') || (userConfig.FONTAWESOME_BACKEND=='css' && !userConfig.FONTAWESOME_USE_LOCAL))
         && new HtmlWebpackTagsPlugin({
             assets: [userConfig.FONTAWESOME_CDN],
-            append: true 
+            append: true
         }),
 
       /* If font formats missing, then download them */
-      (FONTS_DONWLOAD) 
+      (FONTS_DONWLOAD)
         && new GoogleFontsPlugin({
           "fonts": userConfig.GOOGLE_FONTS,
           "formats": userConfig.GOOGLE_FONTS_FORMATS,
@@ -190,7 +204,7 @@ async function getConfig() {
       /* Include fonts */
       new HtmlWebpackTagsPlugin({
           assets: userConfig.GOOGLE_FONTS_FORMATS.map(format => `lib/css/${format}.css`),
-          append: true 
+          append: true
     	}),
 
       // clean up generatedEntries folder of file-specific tree shaking for FA icons
