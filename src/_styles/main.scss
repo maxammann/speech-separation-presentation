@@ -114,11 +114,17 @@ section > h1, section > h2 {
   }
 
   * {
-    line-height: 1 !important;
+    line-height: normal !important;
   }
 }
 
 .caption {
+  margin: 5px;
+  text-align: center;
+  font-size: 15pt;
+}
+
+.source-caption {
   margin-top: 10px;
   text-align: end;
   font-size: 10pt;
@@ -153,6 +159,32 @@ section > h1, section > h2 {
     margin: 10px !important;
     line-height: 1 !important;
   }
+}
+
+ul.contact-list {
+
+  > li {
+    list-style: none;
+    display: inline;
+  }
+}
+
+// Fix for spec
+.spec > spectrogram:nth-child(1) > canvas:nth-child(2) {
+  left: 0
+}
+
+.playpause {
+  display: block;
+  background-color: #6C6C6C; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  //display: inline-block;
+  font-size: 16px;
+  margin-top: 10px;
 }
 
 
