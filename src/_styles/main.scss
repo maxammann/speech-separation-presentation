@@ -2,8 +2,6 @@
 @import "../../node_modules/reveal.js/css/reveal.css";
 // For code syntax highlighting
 @import "../../node_modules/highlight.js/styles/atom-one-dark.css";
-
-
 @import "../../node_modules/reveal.js/css/theme/white.css";
 
 .reveal.slide .slides > section, .reveal.slide .slides > section > section {
@@ -15,6 +13,7 @@
   top: 0 !important;
   align-items: center !important;
 }
+
 section > h1, section > h2 {
   position: absolute !important;
   top: 0 !important;
@@ -24,6 +23,7 @@ section > h1, section > h2 {
   right: 0 !important;
   text-align: center !important;
 }
+
 .print-pdf .reveal.slide .slides > section, .print-pdf .reveal.slide .slides > section > section {
   min-height: 770px !important;
   position: relative !important;
@@ -34,61 +34,126 @@ section > h1, section > h2 {
 @import "fonts/Computer Modern/Sans/cmun-sans.css";
 
 
+.reveal {
+  font-family: "Computer Modern Serif", serif;
+  font-size: 30px;
+}
 
-  .reveal {
-    font-family: "Computer Modern Serif";
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  font-family: "Computer Modern Sans", serif;
+}
+
+
+#header-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#header-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#footer-right {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+#footer-left {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 120px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  #logo {
+    background: url('./uni-augsburg.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    width: 20%;
+  }
+}
+
+#footer-right {
+  display: flex;
+  flex-direction: row;
+  height: 120px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  #logo-eihw {
+    margin: 10px;
+    background-size: contain;
+    background: url('./ChairLogo_4x.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    width: 20%;
+  }
+}
+
+
+.images-text {
+  img {
+    margin: 0 !important;
+    max-width: 100% !important;
+    display: block;
   }
 
-  .reveal h1,
-  .reveal h2,
-  .reveal h3,
-  .reveal h4,
-  .reveal h5,
-  .reveal h6 {
-   font-family: "Computer Modern Sans";
+  * {
+    line-height: 1 !important;
   }
+}
 
+.caption {
+  margin-top: 10px;
+  text-align: end;
+  font-size: 10pt;
+}
 
-      #header-left {
-          position: absolute;
-          top: 0%;
-          left: 0%;
-      }
-      #header-right {
-          position: absolute;
-          top: 0%;
-          right: 0%;
-      }
-       #footer-right {
-          position: absolute;
-          bottom: 0%;
-          right: 0%;
-      }
-      #footer-left {
-          display: flex;
-          flex-direction: row-reverse;
+.inner-caption {
+  margin: 5px 0;
+  text-align: center;
+  font-size: 12pt;
+}
 
-          height: 120px;
-          width: 100%;
-          position: absolute;
-          bottom: 0%;
-          left: 0%;
+.math-highlight {
+  color: red;
+}
 
+.math-highlight-alt {
+  color: blue;
+}
 
-          #logo {
-            background: url('./uni-augsburg.png');
-//             , #b3b3b3
-                      background-size: contain;
-                      background-repeat: no-repeat;
-                      background-position: right bottom;
-                      width: 20%;
-          }
+.boxed {
+  margin: 15px 0px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 4px solid #222;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
 
-          #green-footer {
-//                 background-color: #489324;
-                width: 80%;
-          }
-      }
+.references {
+  font-size: 20px;
+
+  * {
+    text-align: start;
+    margin: 10px !important;
+    line-height: 1 !important;
+  }
+}
 
 
 // animate.css

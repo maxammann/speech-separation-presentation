@@ -116,8 +116,7 @@ async function getConfig() {
               loader: 'file-loader',
               options: {
                 name: '[name].[ext]',
-                // publicPath: './../../',
-                publicPath: '/images/',
+                publicPath: './../../images',
                 outputPath: './images/',
               }
             }

@@ -13,9 +13,10 @@
             <!--            <div id="header-left">HEADER-LEFT</div>-->
             <!--            <div id="header-right">HEADER-RIGHT</div>-->
             <div id="footer-left">
-
                 <div id="logo"></div>
-                <div id="green-footer"></div>
+            </div>
+            <div id="footer-right">
+                <div id="logo-eihw"></div>
             </div>
             <!--            <div id="footer-right">FOOTER-Right</div>-->
         </div>
@@ -26,7 +27,6 @@
         <section>
             <div><h1>Speech Separation</h1></div>
             <div><h2>using Deep Clustering</h2></div>
-
         </section>
 
 
@@ -35,69 +35,229 @@
         <section>
             <h2>About Me</h2>
 
-            Lorem Ipsum.
+            <div data-markdown>
+                * Studying **Computer Science** at UNA
+                * Pursuing a MSc in **Software Engineering** at UNA, LMU and TUM
+                * This thesis is my first **Deep Learning** project
+            </div>
         </section>
         <section>
             <h2>The Future</h2>
 
             <div style="display: flex; justify-content: center; flex-direction: column">
                 <div style="align-self: center;">
-                    <video src="content/startrek.webm" controls style="height: 500px"></video>
+                    <video src="content/figures/star_trek.mp4" controls style="height: 500px; max-width: 100%"></video>
                 </div>
-                <cite style="font-size: 12pt">Source: Star Trek: The Next Generation, 5x28: Déjà Vu</cite>
+                <div class="caption">Source: Star Trek: The Next Generation, 5x28: Déjà Vu</div>
             </div>
 
         </section>
         <section>
-            <h2>Foundations of Deep Clustering</h2>
+            <h2>The Goal</h2>
 
-            <!-- TODO: Describe the connection between Deep Learning and Clustering wiht K-Means -->
+            <div data-markdown>
+                * Separating a speech mixture into its sources
+                - Sources belong to the same class, namely speech
+                - Separation is conducted blind (Unknown source count, gender, etc.)
+                - Separation is speaker independent
+                - Address the "Permutation Problem"
+                * Also known as the "Cocktail Party Problem"
+            </div>
+
+            <!--TODO: Not speech enhancement-->
         </section>
 
-        <section>
-            <h2>The Problem</h2>
-
-            <!--* TODO: Challenge: Not Denoising, but Separation of Speech (Male vs. Female, Male vs. Male)-->
-        </section>
 
         <!--Deep Clustering-->
         <section>
             <!--0s-->
-            <h2>Deep Clustering</h2>
+            <h2>Deep Clustering (DC)</h2>
 
-            <div style="display: flex; justify-content: center; flex-direction: column; width: 100%">
-
-                <div style="align-self: center; text-align: end; width: 100%">
-                        <img style="width: 100%" class="plain" src="content/figures/stages.svg">
-                        <span style="font-size: 12pt; ">Source: Speech Separation using Deep Clustering, p. 24</span>
+            <div style="width: 70%" class="images-text">
+                <div>
+                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-1.svg">
+                    <div class="inner-caption">(a) Spectrogram of a mixture in which two persons are talking.</div>
+                </div>
+                <div>
+                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-2.svg">
+                    <div class="inner-caption">(b) Mask for a single speaker.</div>
+                </div>
+                <div>
+                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-3.svg">
+                    <div class="inner-caption">Separated spectrogram, which was created by applying the mask in Figure
+                        (b)
+                    </div>
+                </div>
+                <div>
+                    <div style="width: 100%" class="caption">
+                        Source: Speech Separation using Deep Clustering, p. 20
+                    </div>
                 </div>
             </div>
 
+            <!-- TODO: Describe the connection between Deep Learning and Clustering with K-Means -->
+            <!-- TODO: Describe how the permutation problem is solved -->
+        </section>
+        <section>
+            <h2>Stages of DC</h2>
+            <div style="display: flex; justify-content: center; flex-direction: column; width: 100%">
+
+                <div style="align-self: center; text-align: end; width: 100%">
+                    <img style="width: 100%" class="plain" src="content/figures/stages.svg">
+                    <div class="caption">Source: Speech Separation using Deep Clustering, p. 24</div>
+                </div>
+            </div>
+        </section>
+        <section>
+            <!--30s-->
+            <h2>Stage 1: Feature Extraction</h2>
+
+            <div data-markdown>
+                Given $0 < n < N$ samples of a mixture
+            </div>
+
+
+            <ul>
+                <li>$x(n)$ and its STFT</li>
+                <li class="fragment">$S(t, m)$ with $0 \le t \le \frac{N-M}{H}$ and $0 \le m \le \frac{M}{2}$ where $M$
+                    is the window
+                    size and $H$ the hop length,
+                </li>
+            </ul>
+
+            <div class="fragment">
+                <div data-markdown>
+                    then
+                </div>
+
+                <div>
+                    $S_{pwr}(t,m)=20\log_{10}(S_+(t, m))\,\text{dB}$ with $S_+(t, m) = \max(|S(t, m)|, \epsilon)$
+                </div>
+            </div>
+
+            <!--            TODO: Normalisation (standard score)-->
 
         </section>
         <section>
             <!--30s-->
-            <h2>Feature Extraction</h2>
+            <h2>Stage 2: Structure of the RNN</h2>
 
-            <!--TODO-->
-        </section>
-        <section>
-            <!--30s-->
-            <h2>Structure of the RNN</h2>
+            <div data-markdown>
+                * The RNN maps each time-frequency bin to a normalized $d$-dimensional embedding
+                * $n_{recurrent}$ LSTM hidden layers with $n_{hidden}$ hidden units
+                * single fully-connected layer with $\tanh$ as activation function
+            </div>
 
-            <!--TODO-->
+            <div data-markdown>
+                For each window the output of the network is a a matrix $V \in \mathbb{R}^{p \times d}$
+                where $p=(\frac{M}{2}+1) \cdot b_s \cdot \\#_w$ with batch size $b_s$ and window count $\\#_w$.
+            </div>
         </section>
         <section>
             <!--1:30min-->
             <h2>Training the RNN</h2>
 
+            <div data-markdown>
+                * The matrix $VV^{\mkern-1.5mu\mathsf{T}} \in \mathbb{R}^{p \times p}$ is called the estimated affinity
+                matrix.
+                * The training target is the ideal affinity matrix $YY^{\mkern-1.5mu\mathsf{T}} \in \mathbb{R}^{p \times
+                p}$.
+            </div>
+
+            <div style="margin-top: 50px">
+                <div>
+                    $
+                    J(Y, V) = || VV^{\mkern-1.5mu\mathsf{T}} - YY^{\mkern-1.5mu\mathsf{T}} ||^2_F =
+                    \texfragment[index=0]{
+                    \sum_{\substack{i=0,j=0 \\ y_i = y_j}} \left(
+                    \texapply[class=math-highlight, index=1]{| v_i - v_j |^2 - 1}
+                    \right) + \sum_{i=0,j=0} (
+                    \texapply[class=math-highlight-alt, index=2]{v_i^{\mkern-1.5mu\mathsf{T}} v_j}
+                    )\texapply[class=math-highlight-alt, index=2]{^2}
+                    }
+                    $
+                </div>
+
+                <div style="text-align: end; margin-top: 10px; font-weight: bold">
+                    <div class="fragment" data-fragment-index="0">
+                    </div>
+
+                    <div class="fragment math-highlight" data-fragment-index="1">
+                        Pulls embeddings of the same class closer together
+                    </div>
+
+                    <div class="fragment math-highlight-alt" data-fragment-index="2">
+                        Pushes embeddings of the different classes apart
+                    </div>
+                </div>
+            </div>
+
+            <div data-markdown class="fragment" style="margin-top: 50px">
+                As the $p \times p$ can be huge a low rank representation exists:
+
+                $J(Y, V) = || V^{\mkern-1.5mu\mathsf{T}} V ||^2_F - 2 || V^{\mkern-1.5mu\mathsf{T}} Y||^2_F + ||
+                Y^{\mkern-1.5mu\mathsf{T}} Y||^2_F$
+            </div>
+
             <!--TODO: Loss Function (Embedding distance)-->
         </section>
         <section>
             <!--30s-->
-            <h2>Clustering</h2>
+            <h2>Stage 3: Clustering</h2>
 
-            <!--TODO: Clustering and Waveform Recreation-->
+            <div data-markdown>
+                $k$-Means is used to cluster the embedding matrix $V \in \mathbb{R}^{p \times d}$.
+            </div>
+
+            <div data-markdown class="fragment">
+                The loss function of $k$-means adapted to our task is
+
+                $\gamma=\sum_{i=0}^{p} \sum_{j=0}^{k} z_{ij} ||v_i - c_j||^2 = ||V-ZM||_F^2$ where
+
+                $Z \in \mathbb{R}^{p \times k}$ with $z_{ij}=\begin{cases}
+                1 & \text{if $v_i$ is estimated to belong to speaker $k$} \\\\
+                0 & \text{otherwise}
+                \end{cases}$ and
+
+                $M=(Y^{\mkern-1.5mu\mathsf{T}} Y)^{-1}Y^{\mkern-1.5mu\mathsf{T}} V$.
+            </div>
+
+            <div data-markdown class="fragment boxed">
+                The training objective $J(Y, V)$ and the $k$-means objective $\gamma$ are small, if
+                $VV^{\mkern-1.5mu\mathsf{T}} \approx YY^{\mkern-1.5mu\mathsf{T}}$ which leads to $Z \approx Y$
+
+            </div>
+        </section>
+
+
+        <!--TODO: C
+    </section>lustering -->
+        <section>
+            <!--30s-->
+            <h2>Stage 4 and 5: Waveform Reconstruction</h2>
+
+            <div data-markdown>
+                The matrix $Z \in \mathbb{R}^{p \times k}$ from the clustering step can be interpreted as binary mask:
+                $\mathrm{IBM}(t,m, j)=z_{t(\frac{M}{2}+1)+m,j}$
+
+                $\mathrm{IBM}(t,m, j)$ is 1 if speaker $j$ is active in the time-frequency bin $(t, m)$.
+            </div>
+
+            <div class="fragment">
+                <div data-markdown class="boxed">
+                    The spectrum of an individual speaker can be obtained by multiplying the spectrum of the mixture
+                    with the $\mathrm{IBM}$:
+                    $\tilde{S}_j(t,m)=\mathrm{IBM}(t,m,j) \cdot S(t,m)$
+                </div>
+
+                <div data-markdown>
+                    Finally, $\tilde{S}_j(t,m)$ can be inverted using the overlap-add approach which yields a discrete
+                    speech signal $x_j(n)$.
+                </div>
+            </div>
+
+
+            <!--TODO:Waveform Reconstruction-->
         </section>
 
 
@@ -122,9 +282,51 @@
             <h2>Order Selection</h2>
 
             <!--TODO: Number of People Talking (Elbow instead of normal clustering)-->
+            <div style="width: 100%" class="images-text">
+                <div style="display: flex; justify-content: stretch">
+                    <div>
+                        <img style="" class="plain" src="content/figures/elbow/centers_2.svg">
+                        <div class="inner-caption">(b) ??</div>
+                    </div>
+                    <div>
+                        <img style="" class="plain" src="content/figures/elbow/centers_2.svg">
+                        <div class="inner-caption">(b) ??</div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="width: 100%" class="caption">
+                        Source: ??
+                    </div>
+                </div>
+            </div>
+
+
+            <div style="width: 100%" class="images-text">
+                <div style="display: flex; justify-content: space-evenly">
+                    <div>
+                        <img style="width: 100%" class="plain" src="content/figures/elbow/scores_1.svg">
+                        <div class="inner-caption">(b) ??</div>
+                    </div>
+                    <div>
+                        <img style="width: 100%" class="plain" src="content/figures/elbow/scores_2.svg">
+                        <div class="inner-caption">(b) ??</div>
+                    </div>
+                </div>
+                <div>
+                    <div style="width: 100%" class="caption">
+                        Source: ??
+                    </div>
+                </div>
+            </div>
         </section>
         <section>
             <h2>Visualisation of Clustering</h2>
+
+            <div>
+                <video src="content/figures/visualisation.mp4" data-autoplay data-loop
+                       style="height: 500px; max-width: 100%"></video>
+            </div>
 
             <!--TODO: Animation?, PCA-->
         </section>
@@ -132,9 +334,8 @@
 
         <!--Outro-->
         <!--0min-->
-        <section>
-            <h2>Black Slide</h2>
-            <!--TODO-->
+        <!--        Black Slide-->
+        <section data-background="#000000">
         </section>
         <section>
             <h2>Findings and Outlook</h2>
@@ -150,11 +351,16 @@
         <section>
             <h2>References</h2>
             <!--TODO-->
+
+            <div data-external="content/biblography.html">
+            </div>
         </section>
 
         <!--Backup Slides-->
         <section>
             <h2>Backup Slides</h2>
+
+
             <!--TODO: Metric Results, Table with Results - Why this hyperparameters?-->
         </section>
     </div>

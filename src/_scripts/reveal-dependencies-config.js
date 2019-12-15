@@ -61,5 +61,9 @@ Reveal.configure(
       // and the menu will not attempt to load the font-awesome library.
       loadIcons: false
     },
+
+    dependencies: [
+      { src: 'plugin/math/math.js', async: true }
+    ]
   }
 )

@@ -15,3 +15,10 @@ import './reveal-plugins/math-gc.js'
 import './reveal-plugins/print-css.js'
 // Syntax highlighting for code
 import './reveal-plugins/reveal-highlight.js'
+
+import 'nodePath/reveal.js/plugin/markdown/marked'
+import 'nodePath/reveal.js/plugin/markdown/markdown'
+
+
+// Markdown
+
