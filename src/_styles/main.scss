@@ -158,6 +158,7 @@ section > h1, section > h2 {
   border: 4px solid #222;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   padding: 5px;
+  text-align: center;
 }
 
 .references {
@@ -202,6 +203,17 @@ ul.contact-list {
 
 .playback-wrapper {
   padding: 10px;
+}
+
+
+ul.math-list {
+  > li {
+    list-style: none;
+
+    a {
+      color: black
+    }
+  }
 }
 
 //div {

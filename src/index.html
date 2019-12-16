@@ -10,24 +10,20 @@
 
     <div id="hidden" style="display:none;">
         <div id="header">
-            <!--            <div id="header-left">HEADER-LEFT</div>-->
-            <!--            <div id="header-right">HEADER-RIGHT</div>-->
             <div id="footer-left">
                 <div id="logo"></div>
             </div>
             <div id="footer-right">
                 <div id="logo-eihw"></div>
             </div>
-            <!--            <div id="footer-right">FOOTER-Right</div>-->
         </div>
     </div>
 
     <div class="slides">
 
         <section>
-
-            <div style="display: flex; flex-direction: column; justify-content: space-between; min-height: 400px; align-content: space-between">
-                <div style="  align-self: flex-start;">
+            <div style="display: flex; flex-direction: column; justify-content: space-between; min-height: 400px; align-content: space-between; width: 100%">
+                <div style="text-align: center">
                     <div><h1>Speech Separation</h1></div>
                     <div><h2>using Deep Clustering</h2></div>
                 </div>
@@ -42,22 +38,17 @@
                 </div>
             </div>
 
+            <aside class="notes">
+                Hello, I'm Max Ammann and I'm pleased to present you my Bachelor Thesis about "Speech Separation using Deep Clustering today.
+                As I'm having last talk before lunch I'll start right away.
+            </aside>
         </section>
 
 
         <!--Introduction-->
-        <!--2min-->
-        <!--<section>
-            <h2>About Me</h2>
 
-            <div data-markdown>
-                * Studying **Computer Science** at UNA
-                * Pursuing a MSc in **Software Engineering** at UNA, LMU and TUM
-                * This thesis is my first **Deep Learning** project
-            </div>
-        </section>-->
         <section>
-            <h2>Motivation for Deep Clustering (DC)</h2>
+            <h2>Motivation for Speech Separation</h2>
 
             <div style="display: flex; flex-direction: row; align-items: center;">
                 <div style="flex-basis: 50%;">
@@ -70,10 +61,9 @@
 
                 <div class="fragment" style="flex-basis: 50%; font-size: 20px">
                     <div data-markdown>
-                        * Separating a speech mixture into its sources
-                        * Sources belong to the same domain, namely speech
-                        * Separation is conducted blind (Unknown speaker count, gender, etc.)
-                        * Separation is speaker independent
+                        * Separating a speech mixture into multiple speech segments that belong to different speakers
+                        * Challenge lies in separating a mixture which consists of sources of the same domain and from
+                        unknown speakers
                         <!-- * Address the "Permutation Problem"
                         * Also known as the "Cocktail Party Problem" -->
                     </div>
@@ -90,68 +80,16 @@
             </aside>
         </section>
 
-        <!--Deep Clustering-->
-        <!--        <section>-->
-        <!--            &lt;!&ndash;0s&ndash;&gt;-->
-        <!--            <h2>Deep Clustering (DC)</h2>-->
-
-        <!--            <div style="width: 70%" class="images-text">-->
-        <!--                <div>-->
-        <!--                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-1.svg">-->
-        <!--                    <div class="inner-caption">(a) Spectrogram of a mixture in which two persons are talking.-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--                <div>-->
-        <!--                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-2.svg">-->
-        <!--                    <div class="inner-caption">(b) Mask for a single speaker.</div>-->
-        <!--                </div>-->
-        <!--                <div>-->
-        <!--                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-3.svg">-->
-        <!--                    <div class="inner-caption">Separated spectrogram, which was created by applying the mask in Figure-->
-        <!--                        (b)-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--                <div>-->
-        <!--                    <div style="width: 100%" class="source-caption">-->
-        <!--                        Source: Speech Separation using Deep Clustering, p. 20-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--            </div>>-->
-        <!--        </section>-->
         <section>
             <h2>Framework</h2>
-            <div style="display: flex; justify-content: center; flex-direction: column; width: 78%">
+            <div style="display: flex; justify-content: center; flex-direction: column; width: 100%">
                 <div style="align-self: center; text-align: end; width: 100%">
                     <img style="width: 100%;margin-right: 100px; margin-top: -35px;" class="plain"
                          src="content/figures/overview.svg">
                 </div>
             </div>
 
-            <!--                        <ul style="font-size: 20px; margin-top: 30px">-->
-            <!--                            <li class="fragment">The <b>Feature Extraction</b> stage is responsible for creating the input features-->
-            <!--                                for the neural-->
-            <!--                                network. The input mixture is transformed using STFT.-->
-            <!--                            </li>-->
-            <!--                            <li class="fragment">-->
-            <!--                                The <b>RNN</b> stage calculates for each time-frequency bin a $d$-dimensional vector using a RNN.-->
-            <!--                                The-->
-            <!--                                output of the network is exactly one $d$-dimensional vector for each time-frequency bin.-->
-            <!--                            </li>-->
-            <!--                            <li class="fragment">-->
-            <!--                                The <b>Clustering</b> stage determines the centers of the resulting clusters in the embedding space.-->
-            <!--                            </li>-->
-            <!--                            <li class="fragment">-->
-            <!--                                In the <b>Creation of Mask</b> stage a mask is calculated by using the label information retrieved-->
-            <!--                                from clustering.-->
-            <!--                            </li>-->
-            <!--                            <li class="fragment">-->
-            <!--                                The final stage is the <b>Waveform Reconstruction</b> of the separated spectra. The DC method-->
-            <!--                                uses only the amplitude information of the STFT.-->
-            <!--                            </li>-->
-            <!--                        </ul>-->
-
             <aside class="notes">
-
                 <div data-markdown>
                     * Feature Extraction: Creating the input features for the neural network. The input mixture is
                     transformed using STFT
@@ -160,72 +98,32 @@
                     * Creation of Mask: Mask is calculated by using the label information retrieved from clustering
                     * Waveform Reconstruction: **Only the amplitude information of the STFT**
                 </div>
-
-
                 <div data-markdown>
                     * $n_{recurrent}$ LSTM hidden layers with $n_{hidden}$ hidden units
                     * single fully-connected layer with $\tanh$ as activation function
                     * Dropouts are applied on the forward and backwards layers of the RNN
                     * LSTMs are beneficial in comparision to GRUs (conducted experiment)
                 </div>
-
             </aside>
-
         </section>
-        <!--        <section>-->
-        <!--            &lt;!&ndash;30s&ndash;&gt;-->
-        <!--            <h2>Stage 1: Feature Extraction</h2>-->
 
-        <!--            <div data-markdown>-->
-        <!--                Given $0 < n < N$ samples of a mixture-->
-        <!--            </div>-->
-
-
-        <!--            <ul>-->
-        <!--                <li>$x(n)$ and its STFT</li>-->
-        <!--                <li class="fragment">$S(t, m)$ with $0 \le t \le \frac{N-M}{H}$ and $0 \le m \le \frac{M}{2}$ where $M$-->
-        <!--                    is the window-->
-        <!--                    size and $H$ the hop length,-->
-        <!--                </li>-->
-        <!--            </ul>-->
-
-        <!--            <div class="fragment">-->
-        <!--                <div data-markdown>-->
-        <!--                    then-->
-        <!--                </div>-->
-
-        <!--                <div>-->
-        <!--                    $S_{pwr}(t,m)=20\log_{10}(S_+(t, m))\,\text{dB}$ with $S_+(t, m) = \max(|S(t, m)|, \epsilon)$-->
-        <!--&lt;!&ndash;                    $S_{pwr}(t,m)=20\log_{10}(S(t, m))\,\text{dB}$&ndash;&gt;-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </section>-->
-        <!--        <section>-->
-        <!--            &lt;!&ndash;30s&ndash;&gt;-->
-        <!--            <h2>Structure of the RNN</h2>-->
-
-        <!--            <div class="boxed">-->
-        <!--                The RNN maps each time-frequency bin from the STFT to a normalized $d$-dimensional embedding-->
-        <!--            </div>-->
-
-
-        <!--            &lt;!&ndash;            <div data-markdown>&ndash;&gt;-->
-        <!--            &lt;!&ndash;                For each window the output of the network is a a matrix $V \in \mathbb{R}^{p \times d}$&ndash;&gt;-->
-        <!--            &lt;!&ndash;                where $p=(\frac{M}{2}+1) \cdot b_s \cdot \\#_w$ with batch size $b_s$ and window count $\\#_w$.&ndash;&gt;-->
-        <!--            &lt;!&ndash;            </div>&ndash;&gt;-->
-        <!--        </section>-->
         <section>
             <!--1:30min-->
             <h2>Training the RNN</h2>
 
             <div data-markdown>
-                * The matrix $VV^{\mkern-1.5mu\mathsf{T}} \in \mathbb{R}^{p \times p}$ is called the estimated affinity
-                matrix
-                * The training target is the ideal affinity matrix $YY^{\mkern-1.5mu\mathsf{T}} \in \mathbb{R}^{p \times
-                p}$
+                In order to train an RNN which produces similar embeddings for the same speaker we minimize:
             </div>
 
             <div style="margin-top: 50px">
+                <div style="text-align: end; margin-bottom: 20px; font-weight: bold">
+                    <div class="fragment" data-fragment-index="0">
+                    </div>
+                    <div class="fragment math-highlight" data-fragment-index="1">
+                        Pulls embeddings of the same class closer together
+                    </div>
+                </div>
+
                 <div>
                     $
                     J(Y, V) = || VV^{\mkern-1.5mu\mathsf{T}} - YY^{\mkern-1.5mu\mathsf{T}} ||^2_F =
@@ -242,25 +140,29 @@
                 </div>
 
                 <div style="text-align: end; margin-top: 10px; font-weight: bold">
-                    <div class="fragment" data-fragment-index="0">
-                    </div>
-
-                    <div class="fragment math-highlight" data-fragment-index="1">
-                        Pulls embeddings of the same class closer together
-                    </div>
-
                     <div class="fragment math-highlight-alt" data-fragment-index="2">
                         Pushes embeddings of the different classes apart
                     </div>
                 </div>
+
+                <div data-markdown style="margin-top: 10px;">
+                    * $VV^{\mkern-1.5mu\mathsf{T}} \in \mathbb{R}^{p \times p}$ is the estimated affinity matrix
+                    * $YY^{\mkern-1.5mu\mathsf{T}} \in \mathbb{R}^{p \times p}$ is the ideal affinity matrix
+                </div>
             </div>
 
-            <div data-markdown class="fragment" style="margin-top: 50px">
-                As the $p \times p$ matrix $VV^{\mkern-1.5mu\mathsf{T}}$ can be huge a low rank representation exists:
+            <div class="fragment">
 
-                $J(Y, V) = || V^{\mkern-1.5mu\mathsf{T}} V ||^2_F - 2 || V^{\mkern-1.5mu\mathsf{T}} Y||^2_F + ||
-                Y^{\mkern-1.5mu\mathsf{T}} Y||^2_F$
+                <div data-markdown style="margin-top: 50px">
+                    As the matrix $VV^{\mkern-1.5mu\mathsf{T}}$ consumes a lot of resources the above equation is
+                    simplified as a low rank form:
+                </div>
+                <div style="text-align: center;">
+                    $J(Y, V) = || V^{\mkern-1.5mu\mathsf{T}} V ||^2_F - 2 || V^{\mkern-1.5mu\mathsf{T}} Y||^2_F + ||
+                    Y^{\mkern-1.5mu\mathsf{T}} Y||^2_F$
+                </div>
             </div>
+
 
             <aside class="notes">
                 <div data-markdown>
@@ -268,8 +170,6 @@
                     * Y contains a one hot vector for each tf e.g. [0,0,1] for three speakers
                 </div>
             </aside>
-
-            <!--TODO: Loss Function (Embedding distance)-->
         </section>
 
         <!--Clustering -->
@@ -277,28 +177,45 @@
             <!--30s-->
             <h2>Clustering</h2>
 
-            <div data-markdown>
-                $k$-Means is used to cluster the embedding matrix $V \in \mathbb{R}^{p \times d}$.
+            <div>
+                $k$-Means is used to cluster the learnt embedding vectors.
             </div>
 
-            <div data-markdown class="fragment">
-                The loss function of $k$-means adapted to our task is
+            <div class="fragment">
+                <div data-markdown>
+                    The loss function of $k$-means adapted to our task is
+                </div>
 
-                $\gamma=\sum_{i=0}^{p} \sum_{j=0}^{k} z_{ij} ||v_i - c_j||^2 = ||V-ZM||_F^2$ where
+                <div style="text-align: center">
+                    $\gamma=\sum_{i=0}^{p} \sum_{j=0}^{k} b_{ij} ||v_i - c_j||^2 = ||V-BM||_F^2$
+                </div>
 
-                $Z \in \mathbb{R}^{p \times k}$ with $z_{ij}=\begin{cases}
-                1 & \text{if $v_i$ is estimated to belong to speaker $k$} \\\\
-                0 & \text{otherwise}
-                \end{cases}$,
-                $v_i \in V$,
-                $c_j$ is the center of the cluster for speaker $j$ and
-                $M=(Y^{\mkern-1.5mu\mathsf{T}} Y)^{-1}Y^{\mkern-1.5mu\mathsf{T}} V$.
+                <div style="margin-top: 40px">
+                    where:
+                </div>
+                <ul class="math-list">
+                    <li>
+                        $B \in \mathbb{R}^{p \times k}$ with $b_{ij}=\begin{cases}
+                        1 & \text{if $v_i$ is estimated to belong to speaker $j$} \\\\
+                        0 & \text{otherwise}
+                        \end{cases}$,
+                    </li>
+                    <li>
+                        $v_i \in V$,
+                    </li>
+                    <li>
+                        $c_j$ is the center of the cluster for speaker $j$ and
+                    </li>
+                    <li>
+                        $M=(Y^{\mkern-1.5mu\mathsf{T}} Y)^{-1}Y^{\mkern-1.5mu\mathsf{T}} V$.
+                    </li>
+                </ul>
+
             </div>
 
             <div data-markdown class="fragment boxed">
-                The training objective $J(Y, V)$ and the $k$-means objective $\gamma$ are small, if
-                $VV^{\mkern-1.5mu\mathsf{T}} \approx YY^{\mkern-1.5mu\mathsf{T}}$ which leads to $Z \approx Y$
-
+                The training objective $J(Y, V)$ and the $k$-means objective $\gamma$ are small, then
+                $VV^{\mkern-1.5mu\mathsf{T}} \approx YY^{\mkern-1.5mu\mathsf{T}}$ which leads to $B \approx Y$
             </div>
 
             <aside class="notes">
@@ -309,6 +226,10 @@
                     clustered in the same context -> It is clear which ft belongs to which speaker
                     - Problematic if the mask directly estimated by an DDN
                 </div>
+
+                <div data-markdown>
+                    p=((M/2))+1) * b_s * #_w
+                </div>
             </aside>
         </section>
 
@@ -318,22 +239,21 @@
             <h2>Waveform Reconstruction</h2>
 
             <div data-markdown>
-                The matrix $Z \in \mathbb{R}^{p \times k}$ from the clustering step can be interpreted as binary mask:
-                $\mathrm{IBM}(t,m, j)=z_{t(\frac{M}{2}+1)+m,j}$
-
-                $\mathrm{IBM}(t,m, j)$ is 1 if speaker $j$ is active in the time-frequency bin $(t, m)$.
+                The matrix $B \in \mathbb{R}^{p \times k}$ from the clustering step can be interpreted as binary mask:
             </div>
-
+            <div style="text-align: center; width: 100%">
+                $\mathrm{IBM}_j(t, f)=b_{t(\frac{M}{2}+1)+f,j}$
+            </div>
             <div class="fragment">
                 <div data-markdown class="boxed">
                     The spectrum of an individual speaker can be obtained by multiplying the spectrum of the mixture
                     with the $\mathrm{IBM}$:
-                    $\tilde{S}_j(t,m)=\mathrm{IBM}(t,m,j) \cdot S(t,m)$
+                    $\tilde{S}_j(t,f)=\mathrm{IBM}_j(t,f) \cdot S(t,f)$
                 </div>
 
                 <div data-markdown>
-                    Finally, $\tilde{S}_j(t,m)$ can be inverted using the overlap-add approach which yields a discrete
-                    speech signal $x_j(n)$.
+                    With the phase information of the original signal we reconstruct the speech signal $x_j(n)$ using
+                    the inverse STFT and the the overlap-add approach.
                 </div>
             </div>
 
@@ -361,16 +281,15 @@
         <!--Results-->
         <!--10min-->
         <section>
-            <h2>Data and Metrics</h2>
+            <h2>Experiments</h2>
 
-            <!--            <div style="display: flex; justify-content: center; width: 100%" class="images-text">-->
-            <!--                <img style="width: 40%" class="plain" src="content/figures/data.svg">-->
-            <!--            </div>-->
             <div>
                 <div>
                     <div data-markdown style="text-align: start">
-                        **Three 30h training and 5h evaluation data sets are generated by mixing samples from:**
+                        **Data**
 
+                        Three data sets are used to test the DC algorithm, each containing 30h training and 5h
+                        evaluation data:
                         * TIMIT [54] (Texas Instruments + MIT) and WSJ0 [55] (Wall Street Journal), which contain
                         professional
                         audio
@@ -383,36 +302,43 @@
 
 
                     <div data-markdown style="text-align: start">
-                        **Multiple objective metrics where applied during the experiments:**
+                        **Metrics:**
 
                         * ISR (Image to Spatial Distortion Ratio)
                         * SIR (Source to Interference Ratio)
-                        * SAR (Source to Artifact Radio) and
+                        * SAR (Source to Artifact Radio)
                         * SDR (Source to Distortion Ratio) which combines the above three
-
-                        The original paper on DC from Hershey et al. [1] acts as a baseline.
                     </div>
                 </div>
             </div>
+
+            <aside class="notes">
+                The original paper on DC from Hershey et al. [1] acts as a baseline.
+            </aside>
         </section>
         <section>
-            <h2>Hyperparameter</h2>
+            <h2>Hyperparameters</h2>
 
             <div style="width: 100%">
-                In order to optimize the network, multiple hyperparameters have been evaluated empirically:
+                <!--                In order to optimize the network, multiple hyperparameters have been evaluated empirically:-->
                 <img style="width: 100%" class="plain" src="content/figures/hyperparameters.svg">
             </div>
 
 
-            <!--TODO: Hyperparameters Table 4.2, Baseline=Original DC-->
         </section>
         <section>
-            <h2>Experiment Results A</h2>
-
+            <h2>Experiments</h2>
+            <div style="justify-content: center; display: flex; width: 100%">
+                <img style="width: 100%" class="plain" src="content/figures/sdrs.svg">
+            </div>
+            <div class="caption" style="width: 100%; text-align: center">
+                Experiment results for adjusting the learning rate.
+            </div>
+        </section>
+        <section>
+            <h2>Performance A</h2>
 
             <div style="display: flex; align-content: start; flex-wrap: wrap; width: 100%">
-
-
                 <div style="flex: 100%" id="playback-mix">
                     <div class="playback-wrapper">
                         <div class="timeline"></div>
@@ -449,15 +375,13 @@
             </div>
 
             <div style="width: 100%" class="caption">
-                Example inference on the WSJ0 data set with a male and a female speaker.
+                Example inference on the WSJ0 data set with a <b>male</b> and a <b>female</b> speaker.
             </div>
-
-            <!--TODO: Example Audio file-->
         </section>
 
 
         <section>
-            <h2>Experiment Results B</h2>
+            <h2>Performance B</h2>
 
             <div style="display: flex; align-content: start; flex-wrap: wrap; width: 100%">
                 <div style="flex: 100%" id="playback-timit-mix">
@@ -496,12 +420,12 @@
             </div>
 
             <div style="width: 100%" class="caption">
-                Example inference on the TIMIT data set with two female speakers.
+                Example inference on the TIMIT data set with <b>two female</b> speakers.
             </div>
         </section>
 
         <section>
-            <h2>Experiment Results C</h2>
+            <h2>Performance C</h2>
 
             <div style="display: flex; align-content: start; flex-wrap: wrap; width: 100%">
                 <div style="flex: 100%" id="playback-tedlium-mix">
@@ -540,31 +464,33 @@
             </div>
 
             <div style="width: 100%" class="caption">
-                Example inference on the noisy TEDLIUM data set with two male speakers.
+                Example inference on the noisy TEDLIUM data set with <b>two male</b> speakers.
             </div>
         </section>
 
         <section>
-            <h2>Further Application</h2>
+            <h2>Are there concurrently speaking people?</h2>
 
-            <div data-markdown>
-                Another application is detecting concurrently speaking people.
+            <div class="fragment">
+                <div data-markdown>
+                    **⇒ Speaker count detection using Order Selection**
+                </div>
 
-                **⇒ Speaker count detection using Order Selection**
+                <div data-markdown>
+                    Main approaches:
+
+                    * Determine the distance between the two centers
+                    * Calculate Within Cluster Error (WCE)
+                </div>
             </div>
 
-            <div data-markdown class="fragment">
-                There are mainly two ways:
-
-                1. Determine the distance between the centers
-                2. Calculate WCE (Within Cluster Error)
-            </div>
+            <aside class="notes">
+                WCE = sum of distances between data samples and their associated cluster centers.
+            </aside>
 
         </section>
         <section>
             <h2>Order Selection</h2>
-
-            <!--TODO: Number of People Talking (Elbow instead of normal clustering)-->
             <div style="width: 100%" class="images-text">
                 <div style="justify-content: center; display: flex; width: 100%">
 
@@ -572,8 +498,7 @@
 
                 </div>
                 <div style="width: 100%" class="caption">
-                    (a) The plot shows the Euclidean distance between the origin and the center for $k = 1$, as well as
-                    the distance between the two clusters for $k = 2$.
+                    (a) Euclidean distance between two centers of the clusters for $k = 2$.
                 </div>
             </div>
 
@@ -585,12 +510,8 @@
 
                 </div>
                 <div style="width: 100%" class="caption">
-                    (b) The WCE of an audio signal consisting of four segments over time.
+                    (b) The WCE of a speech signal for $k \in \{1,2\}$.
                 </div>
-            </div>
-
-            <div style="width: 100%" class="source-caption">
-                Source: Speech Separation using Deep Clustering, p. 30
             </div>
         </section>
         <section>
@@ -606,24 +527,16 @@
         <!--Outro-->
         <!--0min-->
         <!--        Black Slide-->
-        <section data-background="#000000">
-        </section>
+        <!--        <section data-background="#000000">-->
+        <!--        </section>-->
         <section>
-            <h2>Findings and Outlook</h2>
-            <!--TODO-->
+            <h2>Conclusion and Outlook</h2>
 
-            <div data-markdown class="fragment">
-                * Quality of separation suffers from noise in the data sets
-                * Unknown speakers do not affect the success to the same extent
-
-                **Data set is important, and hence more research is needed on preparing real-world
-                data**
-            </div>
-
-            <div data-markdown class="fragment">
-                Two methods for visualizing the embedding vectors were introduced:
-                * Illustration of linear dependence of embeddings
-                * Order Selection to draw a conclusion about the success of DC
+            <div data-markdown>
+                * Trained a RNN to produce similar embeddings for TF-bins which belong to the same speaker
+                * Separation performance suffers from noise in data sets but is speaker independent
+                * Order Selection is exploited to detect the existence of overlapping speech
+                * The process of clustering the learned embeddings via k-means is visualized
             </div>
 
             <ul class="contact-list">
@@ -631,6 +544,15 @@
                         href="https://maxammann.org/contact">maxammann.org/contact</a></li>
                 <li><i class="fas fa-code"></i> <a href="https://github.com/maxammann">github.com/maxammann</a></li>
             </ul>
+
+            <aside class="notes">
+                The embedding generator in DC has the potential to be used in more tests such as:
+                * Speaker diarization
+                * identification etc.
+
+                Robust clustering methods need to be investigated to improve clustering performance. Especially in case
+                of strong noise.
+            </aside>
         </section>
 
         <!--References-->
@@ -645,10 +567,83 @@
 
         <!--Backup Slides-->
         <section>
-            <h2>Backup Slides</h2>
+            <h1>Backup Slides</h1>
+        </section>
+        <section>
+            <h2>K-Means</h2>
 
+            <div data-markdown>
+                The goal of k-means is to cluster the vector set $\mathcal{X} \subset \mathbb{R}^d$ of $n$ vectors given
+                an integer $k$ which denotes the amount of expected partitions. The result of this operation is a set
+                $\mathcal{C} \subset \mathbb{R}^d$ of $k$ centers. Like neural networks this algorithm also includes a
+                loss function which is the target for optimization:
 
-            <!--TODO: Metric Results, Table with Results - Why this hyperparameters?-->
+                $\gamma=\sum_{x \in \mathcal{X}} \min_{c \in \mathcal{C}} ||x-c||^2$
+
+                The objective is to minimize for each $x \in X$ the distance to its nearest center.
+            </div>
+        </section>
+        <section>
+            <h2>Order Selection $k=1$</h2>
+            <div style="width: 100%" class="images-text">
+                <div style="justify-content: center; display: flex; width: 100%">
+
+                    <img style="width: 50%" class="plain" src="content/figures/elbow/centers_1_alt.svg">
+
+                </div>
+                <div style="width: 100%" class="caption">
+                    (a) The plot shows the Euclidean distance between the origin and the center for $k = 1$, as well as
+                    the distance between the two clusters for $k = 2$.
+                </div>
+            </div>
+        </section>
+        <section>
+            <div style="justify-content: center; display: flex; width: 100%">
+                <img style="width: 50%" class="plain" src="content/figures/backup.svg">
+            </div>
+            <div class="caption" style="width: 100%; text-align: center">
+                Evaluation results of the baseline model.
+            </div>
+        </section>
+        <section>
+            <div style="width: 100%">
+                <img style="width: 100%" class="plain" src="content/figures/backup1.svg">
+            </div>
+            <div class="caption" style="width: 100%; text-align: center">
+                Evaluation results for adjusting the learning rate.
+            </div>
+        </section>
+        <section>
+            <div style="justify-content: center; display: flex; width: 100%">
+                <img style="width: 50%" class="plain" src="content/figures/backup2.svg">
+            </div>
+            <div class="caption" style="width: 100%; text-align: center">
+                Evaluation results for adjusting the amount of hidden units.
+            </div>
+        </section>
+        <section>
+            <div style="justify-content: center; display: flex; width: 100%">
+                <img style="width: 50%" class="plain" src="content/figures/backup3.svg">
+            </div>
+            <div class="caption" style="width: 100%; text-align: center">
+                Evaluation results for adjusting the batch size.
+            </div>
+        </section>
+        <section>
+            <div style="justify-content: center; display: flex; width: 100%">
+                <img style="width: 50%" class="plain" src="content/figures/backup4.svg">
+            </div>
+            <div class="caption" style="width: 100%; text-align: center">
+                Evaluation results for adjusting the embedding dimension.
+            </div>
+        </section>
+        <section>
+            <div style="justify-content: center; display: flex; width: 100%">
+                <img style="width: 50%" class="plain" src="content/figures/backup5.svg">
+            </div>
+            <div class="caption" style="width: 100%; text-align: center">
+                Evaluation results for adjusting the dropout.
+            </div>
         </section>
     </div>
 </div>
