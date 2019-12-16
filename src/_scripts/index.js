@@ -50,7 +50,7 @@ const playback = (query, url) => {
       SpectrogramPlugin.create({
         wavesurfer: wavesurfer,
         container: container.getElementsByClassName('spec')[0],
-        fftSamples: 256,
+        fftSamples: 128,
         pixelRatio: 1,
         height: 1,
         windowFunc: 'hann',
@@ -69,6 +69,14 @@ const playback = (query, url) => {
 
 }
 
-// playback('#playback-mix', 'content/figures/samples/b-wsj0-train-mix.ogg')
-playback('#playback-ref1', 'content/figures/samples/b-wsj0-train-ref1.ogg')
-playback('#playback-ref2', 'content/figures/samples/b-wsj0-train-ref2.ogg')
+playback('#playback-mix', 'content/figures/samples/b-wsj0-train-mix.ogg')
+playback('#playback-source1', 'content/figures/samples/b-wsj0-train-source1.ogg')
+playback('#playback-source2', 'content/figures/samples/b-wsj0-train-source2.ogg')
+
+playback('#playback-timit-mix', 'content/figures/samples/1a-timit-mix.ogg')
+playback('#playback-timit-source1', 'content/figures/samples/1a-timit-source1.ogg')
+playback('#playback-timit-source2', 'content/figures/samples/1a-timit-source2.ogg')
+
+playback('#playback-tedlium-mix', 'content/figures/samples/1g-tedlium-mix.ogg')
+playback('#playback-tedlium-source1', 'content/figures/samples/1g-tedlium-source1.ogg')
+playback('#playback-tedlium-source2', 'content/figures/samples/1g-tedlium-source2.ogg')

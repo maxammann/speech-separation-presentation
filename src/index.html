@@ -25,14 +25,29 @@
     <div class="slides">
 
         <section>
-            <div><h1>Speech Separation</h1></div>
-            <div><h2>using Deep Clustering</h2></div>
+
+            <div style="display: flex; flex-direction: column; justify-content: space-between; min-height: 400px; align-content: space-between">
+                <div style="  align-self: flex-start;">
+                    <div><h1>Speech Separation</h1></div>
+                    <div><h2>using Deep Clustering</h2></div>
+                </div>
+
+                <div style="font-variant: small-caps;align-self: flex-start;display: flex; justify-content: space-between; width: 100%">
+                    <div>
+                        Maximilian Ammann
+                    </div>
+                    <div>
+                        Supervisor: Shuo Liu
+                    </div>
+                </div>
+            </div>
+
         </section>
 
 
         <!--Introduction-->
         <!--2min-->
-        <section>
+        <!--<section>
             <h2>About Me</h2>
 
             <div data-markdown>
@@ -40,128 +55,174 @@
                 * Pursuing a MSc in **Software Engineering** at UNA, LMU and TUM
                 * This thesis is my first **Deep Learning** project
             </div>
-        </section>
+        </section>-->
         <section>
-            <h2>The Future</h2>
+            <h2>Motivation for Deep Clustering (DC)</h2>
 
-            <div style="display: flex; justify-content: center; flex-direction: column">
-                <div style="align-self: center;">
-                    <video src="content/figures/star_trek.mp4" controls style="height: 500px; max-width: 100%"></video>
+            <div style="display: flex; flex-direction: row; align-items: center;">
+                <div style="flex-basis: 50%;">
+                    <div>
+                        <video src="content/figures/star_trek.mp4" controls
+                               style="max-width: 100%"></video>
+                        <div class="source-caption">Source: Star Trek: The Next Generation, 5x28: Déjà Vu</div>
+                    </div>
                 </div>
-                <div class="source-caption">Source: Star Trek: The Next Generation, 5x28: Déjà Vu</div>
+
+                <div class="fragment" style="flex-basis: 50%; font-size: 20px">
+                    <div data-markdown>
+                        * Separating a speech mixture into its sources
+                        * Sources belong to the same domain, namely speech
+                        * Separation is conducted blind (Unknown speaker count, gender, etc.)
+                        * Separation is speaker independent
+                        <!-- * Address the "Permutation Problem"
+                        * Also known as the "Cocktail Party Problem" -->
+                    </div>
+                </div>
             </div>
 
+            <aside class="notes">
+                <div data-markdown>
+                    * NMF (Non-negative Matrix Factorization) and ICA (Independent component analysis) are linear and
+                    therefore not equally powerful compared to DNNs
+                    * Approaches with DNNs/RNNs which estimate the Spectrum directly suffer from Label Permutation
+                    problem
+                </div>
+            </aside>
         </section>
-        <section>
-            <h2>The Goal</h2>
-
-            <div data-markdown>
-                * Separating a speech mixture into its sources
-                - Sources belong to the same class, namely speech
-                - Separation is conducted blind (Unknown source count, gender, etc.)
-                - Separation is speaker independent
-                - Address the "Permutation Problem"
-                * Also known as the "Cocktail Party Problem"
-            </div>
-
-            <!--TODO: Not speech enhancement-->
-        </section>
-
 
         <!--Deep Clustering-->
+        <!--        <section>-->
+        <!--            &lt;!&ndash;0s&ndash;&gt;-->
+        <!--            <h2>Deep Clustering (DC)</h2>-->
+
+        <!--            <div style="width: 70%" class="images-text">-->
+        <!--                <div>-->
+        <!--                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-1.svg">-->
+        <!--                    <div class="inner-caption">(a) Spectrogram of a mixture in which two persons are talking.-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--                <div>-->
+        <!--                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-2.svg">-->
+        <!--                    <div class="inner-caption">(b) Mask for a single speaker.</div>-->
+        <!--                </div>-->
+        <!--                <div>-->
+        <!--                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-3.svg">-->
+        <!--                    <div class="inner-caption">Separated spectrogram, which was created by applying the mask in Figure-->
+        <!--                        (b)-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--                <div>-->
+        <!--                    <div style="width: 100%" class="source-caption">-->
+        <!--                        Source: Speech Separation using Deep Clustering, p. 20-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>>-->
+        <!--        </section>-->
         <section>
-            <!--0s-->
-            <h2>Deep Clustering (DC)</h2>
-
-            <div style="width: 70%" class="images-text">
-                <div>
-                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-1.svg">
-                    <div class="inner-caption">(a) Spectrogram of a mixture in which two persons are talking.</div>
-                </div>
-                <div>
-                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-2.svg">
-                    <div class="inner-caption">(b) Mask for a single speaker.</div>
-                </div>
-                <div>
-                    <img style="width: 100%" class="plain" src="content/figures/masking_demonstration-3.svg">
-                    <div class="inner-caption">Separated spectrogram, which was created by applying the mask in Figure
-                        (b)
-                    </div>
-                </div>
-                <div>
-                    <div style="width: 100%" class="source-caption">
-                        Source: Speech Separation using Deep Clustering, p. 20
-                    </div>
-                </div>
-            </div>
-
-            <!-- TODO: Describe the connection between Deep Learning and Clustering with K-Means -->
-            <!-- TODO: Describe how the permutation problem is solved -->
-        </section>
-        <section>
-            <h2>Stages of DC</h2>
-            <div style="display: flex; justify-content: center; flex-direction: column; width: 100%">
-
+            <h2>Framework</h2>
+            <div style="display: flex; justify-content: center; flex-direction: column; width: 78%">
                 <div style="align-self: center; text-align: end; width: 100%">
-                    <img style="width: 100%" class="plain" src="content/figures/stages.svg">
-                    <div class="source-caption">Source: Speech Separation using Deep Clustering, p. 24</div>
+                    <img style="width: 100%;margin-right: 100px; margin-top: -35px;" class="plain"
+                         src="content/figures/overview.svg">
                 </div>
             </div>
-        </section>
-        <section>
-            <!--30s-->
-            <h2>Stage 1: Feature Extraction</h2>
 
-            <div data-markdown>
-                Given $0 < n < N$ samples of a mixture
-            </div>
+            <!--                        <ul style="font-size: 20px; margin-top: 30px">-->
+            <!--                            <li class="fragment">The <b>Feature Extraction</b> stage is responsible for creating the input features-->
+            <!--                                for the neural-->
+            <!--                                network. The input mixture is transformed using STFT.-->
+            <!--                            </li>-->
+            <!--                            <li class="fragment">-->
+            <!--                                The <b>RNN</b> stage calculates for each time-frequency bin a $d$-dimensional vector using a RNN.-->
+            <!--                                The-->
+            <!--                                output of the network is exactly one $d$-dimensional vector for each time-frequency bin.-->
+            <!--                            </li>-->
+            <!--                            <li class="fragment">-->
+            <!--                                The <b>Clustering</b> stage determines the centers of the resulting clusters in the embedding space.-->
+            <!--                            </li>-->
+            <!--                            <li class="fragment">-->
+            <!--                                In the <b>Creation of Mask</b> stage a mask is calculated by using the label information retrieved-->
+            <!--                                from clustering.-->
+            <!--                            </li>-->
+            <!--                            <li class="fragment">-->
+            <!--                                The final stage is the <b>Waveform Reconstruction</b> of the separated spectra. The DC method-->
+            <!--                                uses only the amplitude information of the STFT.-->
+            <!--                            </li>-->
+            <!--                        </ul>-->
 
+            <aside class="notes">
 
-            <ul>
-                <li>$x(n)$ and its STFT</li>
-                <li class="fragment">$S(t, m)$ with $0 \le t \le \frac{N-M}{H}$ and $0 \le m \le \frac{M}{2}$ where $M$
-                    is the window
-                    size and $H$ the hop length,
-                </li>
-            </ul>
-
-            <div class="fragment">
                 <div data-markdown>
-                    then
+                    * Feature Extraction: Creating the input features for the neural network. The input mixture is
+                    transformed using STFT
+                    * RNN: Calculates for each time-frequency bin a -dimensional vector using a RNN
+                    * Clustering: Determines the centers of the resulting clusters in the embedding space
+                    * Creation of Mask: Mask is calculated by using the label information retrieved from clustering
+                    * Waveform Reconstruction: **Only the amplitude information of the STFT**
                 </div>
 
-                <div>
-                    $S_{pwr}(t,m)=20\log_{10}(S_+(t, m))\,\text{dB}$ with $S_+(t, m) = \max(|S(t, m)|, \epsilon)$
+
+                <div data-markdown>
+                    * $n_{recurrent}$ LSTM hidden layers with $n_{hidden}$ hidden units
+                    * single fully-connected layer with $\tanh$ as activation function
+                    * Dropouts are applied on the forward and backwards layers of the RNN
+                    * LSTMs are beneficial in comparision to GRUs (conducted experiment)
                 </div>
-            </div>
 
-            <!--            TODO: Normalisation (standard score)-->
+            </aside>
 
         </section>
-        <section>
-            <!--30s-->
-            <h2>Stage 2: Structure of the RNN</h2>
+        <!--        <section>-->
+        <!--            &lt;!&ndash;30s&ndash;&gt;-->
+        <!--            <h2>Stage 1: Feature Extraction</h2>-->
 
-            <div data-markdown>
-                * The RNN maps each time-frequency bin to a normalized $d$-dimensional embedding
-                * $n_{recurrent}$ LSTM hidden layers with $n_{hidden}$ hidden units
-                * single fully-connected layer with $\tanh$ as activation function
-            </div>
+        <!--            <div data-markdown>-->
+        <!--                Given $0 < n < N$ samples of a mixture-->
+        <!--            </div>-->
 
-            <div data-markdown>
-                For each window the output of the network is a a matrix $V \in \mathbb{R}^{p \times d}$
-                where $p=(\frac{M}{2}+1) \cdot b_s \cdot \\#_w$ with batch size $b_s$ and window count $\\#_w$.
-            </div>
-        </section>
+
+        <!--            <ul>-->
+        <!--                <li>$x(n)$ and its STFT</li>-->
+        <!--                <li class="fragment">$S(t, m)$ with $0 \le t \le \frac{N-M}{H}$ and $0 \le m \le \frac{M}{2}$ where $M$-->
+        <!--                    is the window-->
+        <!--                    size and $H$ the hop length,-->
+        <!--                </li>-->
+        <!--            </ul>-->
+
+        <!--            <div class="fragment">-->
+        <!--                <div data-markdown>-->
+        <!--                    then-->
+        <!--                </div>-->
+
+        <!--                <div>-->
+        <!--                    $S_{pwr}(t,m)=20\log_{10}(S_+(t, m))\,\text{dB}$ with $S_+(t, m) = \max(|S(t, m)|, \epsilon)$-->
+        <!--&lt;!&ndash;                    $S_{pwr}(t,m)=20\log_{10}(S(t, m))\,\text{dB}$&ndash;&gt;-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </section>-->
+        <!--        <section>-->
+        <!--            &lt;!&ndash;30s&ndash;&gt;-->
+        <!--            <h2>Structure of the RNN</h2>-->
+
+        <!--            <div class="boxed">-->
+        <!--                The RNN maps each time-frequency bin from the STFT to a normalized $d$-dimensional embedding-->
+        <!--            </div>-->
+
+
+        <!--            &lt;!&ndash;            <div data-markdown>&ndash;&gt;-->
+        <!--            &lt;!&ndash;                For each window the output of the network is a a matrix $V \in \mathbb{R}^{p \times d}$&ndash;&gt;-->
+        <!--            &lt;!&ndash;                where $p=(\frac{M}{2}+1) \cdot b_s \cdot \\#_w$ with batch size $b_s$ and window count $\\#_w$.&ndash;&gt;-->
+        <!--            &lt;!&ndash;            </div>&ndash;&gt;-->
+        <!--        </section>-->
         <section>
             <!--1:30min-->
             <h2>Training the RNN</h2>
 
             <div data-markdown>
                 * The matrix $VV^{\mkern-1.5mu\mathsf{T}} \in \mathbb{R}^{p \times p}$ is called the estimated affinity
-                matrix.
+                matrix
                 * The training target is the ideal affinity matrix $YY^{\mkern-1.5mu\mathsf{T}} \in \mathbb{R}^{p \times
-                p}$.
+                p}$
             </div>
 
             <div style="margin-top: 50px">
@@ -176,6 +237,8 @@
                     )\texapply[class=math-highlight-alt, index=2]{^2}
                     }
                     $
+
+                    <!--                    $J(Y, V) = || VV^{\mkern-1.5mu\mathsf{T}} - YY^{\mkern-1.5mu\mathsf{T}} ||^2_F$-->
                 </div>
 
                 <div style="text-align: end; margin-top: 10px; font-weight: bold">
@@ -193,17 +256,26 @@
             </div>
 
             <div data-markdown class="fragment" style="margin-top: 50px">
-                As the $p \times p$ can be huge a low rank representation exists:
+                As the $p \times p$ matrix $VV^{\mkern-1.5mu\mathsf{T}}$ can be huge a low rank representation exists:
 
                 $J(Y, V) = || V^{\mkern-1.5mu\mathsf{T}} V ||^2_F - 2 || V^{\mkern-1.5mu\mathsf{T}} Y||^2_F + ||
                 Y^{\mkern-1.5mu\mathsf{T}} Y||^2_F$
             </div>
 
+            <aside class="notes">
+                <div data-markdown>
+                    * V contains the embeddings for each tf e.g. [0.1,0.3,0.6] for three speakers
+                    * Y contains a one hot vector for each tf e.g. [0,0,1] for three speakers
+                </div>
+            </aside>
+
             <!--TODO: Loss Function (Embedding distance)-->
         </section>
+
+        <!--Clustering -->
         <section>
             <!--30s-->
-            <h2>Stage 3: Clustering</h2>
+            <h2>Clustering</h2>
 
             <div data-markdown>
                 $k$-Means is used to cluster the embedding matrix $V \in \mathbb{R}^{p \times d}$.
@@ -217,8 +289,9 @@
                 $Z \in \mathbb{R}^{p \times k}$ with $z_{ij}=\begin{cases}
                 1 & \text{if $v_i$ is estimated to belong to speaker $k$} \\\\
                 0 & \text{otherwise}
-                \end{cases}$ and
-
+                \end{cases}$,
+                $v_i \in V$,
+                $c_j$ is the center of the cluster for speaker $j$ and
                 $M=(Y^{\mkern-1.5mu\mathsf{T}} Y)^{-1}Y^{\mkern-1.5mu\mathsf{T}} V$.
             </div>
 
@@ -227,14 +300,22 @@
                 $VV^{\mkern-1.5mu\mathsf{T}} \approx YY^{\mkern-1.5mu\mathsf{T}}$ which leads to $Z \approx Y$
 
             </div>
+
+            <aside class="notes">
+                <div data-markdown>
+                    * Lloyd Algorithm is used
+                    * Clustering can be performed locally or globally
+                    * Clustering approach solves label permutation problem: New embeddings from the network are
+                    clustered in the same context -> It is clear which ft belongs to which speaker
+                    - Problematic if the mask directly estimated by an DDN
+                </div>
+            </aside>
         </section>
 
 
-        <!--TODO: C
-    </section>lustering -->
         <section>
             <!--30s-->
-            <h2>Stage 4 and 5: Waveform Reconstruction</h2>
+            <h2>Waveform Reconstruction</h2>
 
             <div data-markdown>
                 The matrix $Z \in \mathbb{R}^{p \times k}$ from the clustering step can be interpreted as binary mask:
@@ -256,6 +337,22 @@
                 </div>
             </div>
 
+            <!-- TODO: The \gls{dc} method assumes that in each time-frequency bin exactly one voice is
+                dominant. Therefore, each bin can be assigned to one of $k$ sources. For each speaker $0 \le i < k$ a
+                mask $M_i$ is constructed in such a way that its multiplication with the spectrum of the mixture yields
+                the estimated speech signal of the $i$-th speaker.
+                One might say that calculating the mask is like adding another dimension to the time-frequency
+                representation. In addition to the time and frequency dimension, a new dimension is added which denotes
+                the belonging to a specific source.-->
+
+            <!-- TODO: In the case of speech the amplitudes are more important than the phase.
+                Because of that, it is sufficient to use the phase information from the mixture, even though
+                reconstructing the phase could improve the overall performance~\cite[p.11]{Wang2018b}.
+                To get a discrete signal from the time-frequency representation the inverse \gls{stft} is used.
+                Apart from numerical errors, there is no error introduced from the inverse \gls{stft} of the unmodified
+                frequency representation from the mixture. Because the window which was used when extracting the
+                features fulfills the \gls{cola} criterion, the numerical errors are negligible.
+                In conclusion, the quality of the mask is responsible for the success of the source separation. -->
 
             <!--TODO:Waveform Reconstruction-->
         </section>
@@ -264,29 +361,45 @@
         <!--Results-->
         <!--10min-->
         <section>
-            <h2>Metrics</h2>
+            <h2>Data and Metrics</h2>
 
-            <!--TODO: TIMIT, TEDLIUM (noisy), WSJ0-->
-        </section>
-        <section>
-            <h2>Data</h2>
+            <!--            <div style="display: flex; justify-content: center; width: 100%" class="images-text">-->
+            <!--                <img style="width: 40%" class="plain" src="content/figures/data.svg">-->
+            <!--            </div>-->
+            <div>
+                <div>
+                    <div data-markdown style="text-align: start">
+                        **Three 30h training and 5h evaluation data sets are generated by mixing samples from:**
 
-            <div style="display: flex; justify-content: center; width: 100%" class="images-text">
-                <img style="width: 50%" class="plain" src="content/figures/data.svg">
+                        * TIMIT [54] (Texas Instruments + MIT) and WSJ0 [55] (Wall Street Journal), which contain
+                        professional
+                        audio
+                        recordings
+                        * TEDLIUM [56], which contains recordings of TED talks with varying quality.
+                    </div>
+                </div>
+
+                <div class="fragment" style="margin-top: 40px">
+
+
+                    <div data-markdown style="text-align: start">
+                        **Multiple objective metrics where applied during the experiments:**
+
+                        * ISR (Image to Spatial Distortion Ratio)
+                        * SIR (Source to Interference Ratio)
+                        * SAR (Source to Artifact Radio) and
+                        * SDR (Source to Distortion Ratio) which combines the above three
+
+                        The original paper on DC from Hershey et al. [1] acts as a baseline.
+                    </div>
+                </div>
             </div>
-
-            <div data-markdown>
-                * TIMIT (Texas Instruments + MIT) and WSJ0 (Wall Street Journal) contain professional audio recordings
-                * TEDLIUM contains recordings of TED talks with varying quality
-                * Training and test data is generated by mixing samples of these data sets
-            </div>
-
-            <!--TODO: TIMIT, TEDLIUM (noisy), WSJ0-->
         </section>
         <section>
             <h2>Hyperparameter</h2>
 
             <div style="width: 100%">
+                In order to optimize the network, multiple hyperparameters have been evaluated empirically:
                 <img style="width: 100%" class="plain" src="content/figures/hyperparameters.svg">
             </div>
 
@@ -294,68 +407,185 @@
             <!--TODO: Hyperparameters Table 4.2, Baseline=Original DC-->
         </section>
         <section>
-            <h2>Results</h2>
+            <h2>Experiment Results A</h2>
 
-            <div style="width: 100%" id="playback-mix">
-                <div style="width: 50%" class="timeline"></div>
-                <div style="width: 50%" class="spec"></div>
-                <button class="playpause">
-                    <i class="fa fa-play"></i>Play /
-                    <i class="fa fa-pause"></i>Pause
-                </button>
+
+            <div style="display: flex; align-content: start; flex-wrap: wrap; width: 100%">
+
+
+                <div style="flex: 100%" id="playback-mix">
+                    <div class="playback-wrapper">
+                        <div class="timeline"></div>
+                        <div class="spec"></div>
+                        <button class="playpause">
+                            <i class="fa fa-play"></i> /
+                            <i class="fa fa-pause"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="flex: 50%" id="playback-source1">
+                    <div class="playback-wrapper">
+                        <div class="timeline"></div>
+                        <div class="spec"></div>
+                        <button class="playpause">
+                            <i class="fa fa-play"></i> /
+                            <i class="fa fa-pause"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="flex: 50%" id="playback-source2">
+                    <div class="playback-wrapper">
+                        <div class="timeline"></div>
+                        <div class="spec"></div>
+                        <button class="playpause">
+                            <i class="fa fa-play"></i> /
+                            <i class="fa fa-pause"></i>
+                        </button>
+                    </div>
+                </div>
+
             </div>
 
-            <div style="width: 100%" id="playback-ref1">
-                <div style="width: 50%" class="timeline"></div>
-                <div style="width: 50%" class="spec"></div>
-                <button class="playpause">
-                    <i class="fa fa-play"></i>Play /
-                    <i class="fa fa-pause"></i>Pause
-                </button>
-            </div>
-
-            <div style="width: 100%" id="playback-ref2">
-                <div style="width: 50%" class="timeline"></div>
-                <div style="width: 50%" class="spec"></div>
-                <button class="playpause">
-                    <i class="fa fa-play"></i>Play /
-                    <i class="fa fa-pause"></i>Pause
-                </button>
+            <div style="width: 100%" class="caption">
+                Example inference on the WSJ0 data set with a male and a female speaker.
             </div>
 
             <!--TODO: Example Audio file-->
+        </section>
+
+
+        <section>
+            <h2>Experiment Results B</h2>
+
+            <div style="display: flex; align-content: start; flex-wrap: wrap; width: 100%">
+                <div style="flex: 100%" id="playback-timit-mix">
+                    <div class="playback-wrapper">
+                        <div class="timeline"></div>
+                        <div class="spec"></div>
+                        <button class="playpause">
+                            <i class="fa fa-play"></i> /
+                            <i class="fa fa-pause"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="flex: 50%" id="playback-timit-source1">
+                    <div class="playback-wrapper">
+                        <div class="timeline"></div>
+                        <div class="spec"></div>
+                        <button class="playpause">
+                            <i class="fa fa-play"></i> /
+                            <i class="fa fa-pause"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="flex: 50%" id="playback-timit-source2">
+                    <div class="playback-wrapper">
+                        <div class="timeline"></div>
+                        <div class="spec"></div>
+                        <button class="playpause">
+                            <i class="fa fa-play"></i> /
+                            <i class="fa fa-pause"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="width: 100%" class="caption">
+                Example inference on the TIMIT data set with two female speakers.
+            </div>
+        </section>
+
+        <section>
+            <h2>Experiment Results C</h2>
+
+            <div style="display: flex; align-content: start; flex-wrap: wrap; width: 100%">
+                <div style="flex: 100%" id="playback-tedlium-mix">
+                    <div class="playback-wrapper">
+                        <div class="timeline"></div>
+                        <div class="spec"></div>
+                        <button class="playpause">
+                            <i class="fa fa-play"></i> /
+                            <i class="fa fa-pause"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="flex: 50%" id="playback-tedlium-source1">
+                    <div class="playback-wrapper">
+                        <div class="timeline"></div>
+                        <div class="spec"></div>
+                        <button class="playpause">
+                            <i class="fa fa-play"></i> /
+                            <i class="fa fa-pause"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="flex: 50%" id="playback-tedlium-source2">
+                    <div class="playback-wrapper">
+                        <div class="timeline"></div>
+                        <div class="spec"></div>
+                        <button class="playpause">
+                            <i class="fa fa-play"></i> /
+                            <i class="fa fa-pause"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="width: 100%" class="caption">
+                Example inference on the noisy TEDLIUM data set with two male speakers.
+            </div>
+        </section>
+
+        <section>
+            <h2>Further Application</h2>
+
+            <div data-markdown>
+                Another application is detecting concurrently speaking people.
+
+                **⇒ Speaker count detection using Order Selection**
+            </div>
+
+            <div data-markdown class="fragment">
+                There are mainly two ways:
+
+                1. Determine the distance between the centers
+                2. Calculate WCE (Within Cluster Error)
+            </div>
+
         </section>
         <section>
             <h2>Order Selection</h2>
 
             <!--TODO: Number of People Talking (Elbow instead of normal clustering)-->
             <div style="width: 100%" class="images-text">
-                <div style="display: flex;">
-                    <div style="flex: 50%">
-                        <img style="width: 100%" class="plain" src="content/figures/elbow/centers_1.svg">
-                    </div>
-                    <div style="flex: 50%">
-                        <img style="width: 100%" class="plain" src="content/figures/elbow/centers_2.svg">
-                    </div>
+                <div style="justify-content: center; display: flex; width: 100%">
+
+                    <img style="width: 50%" class="plain" src="content/figures/elbow/centers_1.svg">
+
                 </div>
                 <div style="width: 100%" class="caption">
-                    The plots show the Euclidean distance between the origin and the center for $k = 1$, as well as the
-                    distance between the two clusters for $k = 2$.
+                    (a) The plot shows the Euclidean distance between the origin and the center for $k = 1$, as well as
+                    the distance between the two clusters for $k = 2$.
                 </div>
             </div>
 
 
             <div style="width: 100%" class="images-text">
-                <div style="display: flex; justify-content: space-evenly">
-                    <div style="flex: 50%">
-                        <img style="width: 100%" class="plain" src="content/figures/elbow/scores_1.svg">
-                    </div>
-                    <div style="flex: 50%">
-                        <img style="width: 100%" class="plain" src="content/figures/elbow/scores_2.svg">
-                    </div>
+                <div style="justify-content: center; display: flex; width: 100%">
+
+                    <img style="width: 50%" class="plain" src="content/figures/elbow/scores_1.svg">
+
                 </div>
                 <div style="width: 100%" class="caption">
-                    The WCE of two audio signals consisting of four segments over time.
+                    (b) The WCE of an audio signal consisting of four segments over time.
                 </div>
             </div>
 
@@ -366,12 +596,10 @@
         <section>
             <h2>Visualisation of Clustering</h2>
 
-            <div>
-                <video src="content/figures/visualisation.mp4" data-autoplay data-loop
+            <div style="justify-content: center; display: flex; width: 100%">
+                <video src="content/figures/visualisation.mp4" data-autoplay loop
                        style="height: 500px; max-width: 100%"></video>
             </div>
-
-            <!--TODO: Animation?, PCA-->
         </section>
 
 
@@ -384,6 +612,20 @@
             <h2>Findings and Outlook</h2>
             <!--TODO-->
 
+            <div data-markdown class="fragment">
+                * Quality of separation suffers from noise in the data sets
+                * Unknown speakers do not affect the success to the same extent
+
+                **Data set is important, and hence more research is needed on preparing real-world
+                data**
+            </div>
+
+            <div data-markdown class="fragment">
+                Two methods for visualizing the embedding vectors were introduced:
+                * Illustration of linear dependence of embeddings
+                * Order Selection to draw a conclusion about the success of DC
+            </div>
+
             <ul class="contact-list">
                 <li><i class="far fa-envelope"></i> <a
                         href="https://maxammann.org/contact">maxammann.org/contact</a></li>
@@ -393,13 +635,13 @@
 
         <!--References-->
         <!--0min-->
-        <section>
-            <h2>References</h2>
-            <!--TODO-->
-
-            <div data-external="content/biblography.html">
-            </div>
-        </section>
+        <section data-external="content/biblography.html"></section>
+        <section data-external="content/biblography1.html"></section>
+        <section data-external="content/biblography2.html"></section>
+        <section data-external="content/biblography3.html"></section>
+        <section data-external="content/biblography4.html"></section>
+        <section data-external="content/biblography5.html"></section>
+        <section data-external="content/biblography6.html"></section>
 
         <!--Backup Slides-->
         <section>

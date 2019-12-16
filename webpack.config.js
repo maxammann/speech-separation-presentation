@@ -211,7 +211,7 @@ async function getConfig() {
       {
         apply: (compiler) => {
           compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
-            if (process.env.NODE_ENV != 'dev-server') {
+            if (false) {
               exec('rm -R ./src/_scripts/_generatedEntries', (err, stdout, stderr) => {
                 if (stdout) process.stdout.write(stdout);
                 if (stderr) process.stderr.write(stderr);
